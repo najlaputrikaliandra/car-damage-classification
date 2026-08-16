@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarSeverity — Vehicle Damage Classification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ==========================================================
+    TECHNICAL GRID BACKGROUND
+    ========================================================== -->
+    <div class="tech-bg">
+        <div class="grid-pattern"></div>
+        <div class="diagonal-line line-1"></div>
+        <div class="diagonal-line line-2"></div>
+        <div class="diagonal-line line-3"></div>
+    </div>
+
+    <!-- ==========================================================
+    NAVBAR
+    ========================================================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 16l2-5 2 4 2-6 2 3 2-7 2 5 2-2 2 4"/>
+                    </svg>
+                </div>
+                <span class="brand-name">CarSeverity</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Beranda</a>
+                <a href="#about" class="nav-link">Tentang</a>
+                <a href="#guide" class="nav-link">Panduan</a>
+                <a href="#predict" class="nav-link">Prediksi</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==========================================================
+    HERO SECTION
+    ========================================================== -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="reveal-from-left" style="animation-delay: 0.1s">Klasifikasi</span>
+                    <span class="reveal-from-left gold-text" style="animation-delay: 0.2s">Tingkat Kerusakan</span>
+                    <span class="reveal-from-left" style="animation-delay: 0.3s">Kendaraan</span>
+                </h1>
+                
+                <p class="hero-desc reveal-from-left" style="animation-delay: 0.4s">
+                    CarSeverity menggunakan <strong>Convolutional Neural Network</strong>
+                    untuk mengidentifikasi tingkat keparahan kerusakan kendaraan
+                    berdasarkan citra, sebagai informasi pendukung untuk 
+                    <strong>penilaian awal klaim asuransi</strong>.
+                </p>
+                
+                <div class="hero-actions reveal-from-left" style="animation-delay: 0.5s">
+                    <a href="#guide" class="btn btn-ghost">
+                        Lihat Panduan
+                    </a>
+                    <a href="#predict" class="btn btn-gold">
+                        Mulai Prediksi
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-visual reveal-from-right">
+                <div class="visual-wrapper">
+                    <div class="car-showcase">
+                        <div class="showcase-circle circle-1"></div>
+                        <div class="showcase-circle circle-2"></div>
+                        <div class="showcase-circle circle-3"></div>
+                        
+                        <svg class="car-illustration" viewBox="0 0 400 200" fill="none">
+                            <!-- Shadow under car -->
+                            <ellipse cx="200" cy="175" rx="150" ry="12" fill="rgba(0,0,0,0.08)"/>
+                            
+                            <!-- Car body - main -->
+                            <path d="M50 150 L70 110 L100 85 L140 80 L160 60 L240 60 L260 80 L300 85 L330 110 L350 150 Z" 
+                                  fill="url(#carBodyGradient)" 
+                                  stroke="#C9A84C" 
+                                  stroke-width="2"/>
+                            
+                            <!-- Car body - lower -->
+                            <path d="M50 150 L70 110 L100 85 L140 80 L160 60 L240 60 L260 80 L300 85 L330 110 L350 150 L340 150 L320 100 L290 92 L260 88 L240 70 L160 70 L140 88 L100 92 L70 100 L60 150 Z" 
+                                  fill="url(#carLowerGradient)"/>
+                            
+                            <!-- Windows -->
+                            <path d="M105 85 L140 80 L160 62 L240 62 L260 80 L295 85 L275 85 L255 72 L165 72 L145 85 Z" 
+                                  fill="url(#windowGradient)" 
+                                  stroke="#B8942E" 
+                                  stroke-width="1.5"/>
+                            
+                            <!-- Window divider -->
+                            <line x1="200" y1="62" x2="200" y2="78" stroke="#B8942E" stroke-width="1.5"/>
+                            
+                            <!-- Wheels -->
+                            <g>
+                                <!-- Rear wheel -->
+                                <circle cx="120" cy="150" r="28" fill="#2C3E50" stroke="#1A1A1A" stroke-width="2"/>
+                                <circle cx="120" cy="150" r="18" fill="#4A4A4A" stroke="#666" stroke-width="1"/>
+                                <circle cx="120" cy="150" r="8" fill="#C9A84C"/>
+                                <circle cx="120" cy="150" r="3" fill="#1A1A1A"/>
+                                
+                                <!-- Front wheel -->
+                                <circle cx="280" cy="150" r="28" fill="#2C3E50" stroke="#1A1A1A" stroke-width="2"/>
+                                <circle cx="280" cy="150" r="18" fill="#4A4A4A" stroke="#666" stroke-width="1"/>
+                                <circle cx="280" cy="150" r="8" fill="#C9A84C"/>
+                                <circle cx="280" cy="150" r="3" fill="#1A1A1A"/>
+                            </g>
+                            
+                            <!-- Headlights -->
+                            <path d="M335 115 L350 118 L348 130 L333 125 Z" fill="#FFE066" stroke="#FFD700" stroke-width="1"/>
+                            
+                            <!-- Taillights -->
+                            <path d="M50 118 L65 115 L65 128 L50 132 Z" fill="#FF6B6B" stroke="#FF5252" stroke-width="1"/>
+                            
+                            <!-- Door lines -->
+                            <line x1="140" y1="85" x2="140" y2="145" stroke="#B8942E" stroke-width="1" opacity="0.5"/>
+                            <line x1="260" y1="85" x2="260" y2="145" stroke="#B8942E" stroke-width="1" opacity="0.5"/>
+                            
+                            <!-- Door handles -->
+                            <rect x="150" y="100" width="20" height="3" rx="1.5" fill="#B8942E" opacity="0.7"/>
+                            <rect x="230" y="100" width="20" height="3" rx="1.5" fill="#B8942E" opacity="0.7"/>
+                            
+                            <!-- Defs -->
+                            <defs>
+                                <linearGradient id="carBodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#F5EDD8;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#E0D4B8;stop-opacity:1" />
+                                </linearGradient>
+                                
+                                <linearGradient id="carLowerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#D4C5A0;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#C0B088;stop-opacity:1" />
+                                </linearGradient>
+                                
+                                <linearGradient id="windowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#5BA3C7;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        
+                        <div class="scan-line"></div>
+                        
+                        <div class="showcase-label">
+                            <span class="mono-text">VEHICLE ANALYSIS</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating badges - di luar car-showcase -->
+                    <div class="float-badge float-badge-1">
+                        <span class="badge-value">03</span>
+                        <span class="badge-text">Kelas Klasifikasi</span>
+                    </div>
+                    
+                    <div class="float-badge float-badge-2">
+                        <span class="badge-value">CNN</span>
+                        <span class="badge-text">EfficientNetV2-B0</span>
+                    </div>
+                    
+                    <div class="float-badge float-badge-3">
+                        <span class="badge-value">10MB</span>
+                        <span class="badge-text">Max Upload</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================
+    ABOUT SECTION
+    ========================================================== -->
+    <section id="about" class="about">
+        <div class="section-container">
+            <div class="section-header reveal-from-bottom">
+                <span class="section-label">✦ ABOUT THE SYSTEM</span>
+                <h2>Bagaimana <span class="gold-text">sistem ini</span> bekerja?</h2>
+                <p class="section-desc">Pipeline klasifikasi yang presisi dan teruji</p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-card feature-card reveal-from-left">
+                    <div class="card-icon">🧠</div>
+                    <h3>Convolutional Neural Network</h3>
+                    <p>Menggunakan arsitektur <strong>EfficientNetV2-B0</strong> untuk melakukan klasifikasi citra kendaraan berdasarkan tingkat keparahan kerusakan.</p>
+                    <div class="card-line"></div>
+                </div>
+                
+                <div class="about-card feature-card reveal-from-bottom" style="animation-delay: 0.1s">
+                    <div class="card-icon">📸</div>
+                    <h3>Input Citra</h3>
+                    <p>Sistem menerima gambar kendaraan dan menganalisis karakteristik visualnya secara menyeluruh.</p>
+                    <div class="card-line"></div>
+                </div>
+                
+                <div class="about-card feature-card reveal-from-bottom" style="animation-delay: 0.2s">
+                    <div class="card-icon">🎯</div>
+                    <h3>3 Kelas Klasifikasi</h3>
+                    <p><strong>Minor</strong> · <strong>Moderate</strong> · <strong>Severe</strong></p>
+                    <div class="card-line"></div>
+                </div>
+                
+                <div class="about-card feature-card reveal-from-right" style="animation-delay: 0.3s">
+                    <div class="card-icon">⚡</div>
+                    <h3>Prediksi Instan</h3>
+                    <p>Hasil ditampilkan dengan confidence score untuk menunjukkan tingkat keyakinan model terhadap hasil prediksi.</p>
+                    <div class="card-line"></div>
+                </div>
+            </div>
+            
+            <div class="workflow reveal-from-bottom">
+                <div class="workflow-step">
+                    <span class="workflow-icon">📸</span>
+                    <span class="workflow-label">Upload</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <span class="workflow-icon">🧠</span>
+                    <span class="workflow-label">CNN</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step">
+                    <span class="workflow-icon">📊</span>
+                    <span class="workflow-label">Klasifikasi</span>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step highlight">
+                    <span class="workflow-icon">🎯</span>
+                    <span class="workflow-label">Hasil</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================
+    GUIDE SECTION
+    ========================================================== -->
+    <section id="guide" class="guide">
+        <div class="section-container">
+            <div class="section-header reveal-from-bottom">
+                <span class="section-label">📋 BEFORE YOU START</span>
+                <h2>Cara menggunakan <span class="gold-text">sistem</span></h2>
+                <p class="section-desc">Ikuti langkah sederhana untuk hasil optimal</p>
+            </div>
+            
+            <div class="guide-grid">
+                <div class="guide-card reveal-from-left">
+                    <div class="guide-number">01</div>
+                    <div class="guide-icon">📷</div>
+                    <h3>Siapkan foto</h3>
+                    <p>Gunakan foto kendaraan dengan area kerusakan yang cukup jelas dan terlihat.</p>
+                    <div class="guide-tip">
+                        <span class="tip-icon">💡</span>
+                        <span>Pastikan objek terlihat jelas</span>
+                    </div>
+                </div>
+                
+                <div class="guide-card reveal-from-bottom" style="animation-delay: 0.1s">
+                    <div class="guide-number">02</div>
+                    <div class="guide-icon">🎯</div>
+                    <h3>Perhatikan komposisi</h3>
+                    <p>Hindari foto terlalu jauh, cropping ekstrem, atau proporsi tidak wajar.</p>
+                    <div class="guide-tip">
+                        <span class="tip-icon">💡</span>
+                        <span>Jaga proporsi gambar</span>
+                    </div>
+                </div>
+                
+                <div class="guide-card reveal-from-right" style="animation-delay: 0.2s">
+                    <div class="guide-number">03</div>
+                    <div class="guide-icon">🚀</div>
+                    <h3>Jalankan prediksi</h3>
+                    <p>Upload gambar dan biarkan sistem mengklasifikasi tingkat kerusakan.</p>
+                    <div class="guide-tip">
+                        <span class="tip-icon">💡</span>
+                        <span>Hasil dalam hitungan detik</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notice-box reveal-from-bottom">
+                <div class="notice-icon">⚠️</div>
+                <div class="notice-content">
+                    <h3>Perhatikan gambar yang digunakan</h3>
+                    <p>Gunakan gambar dengan pencahayaan cukup, tidak blur, dan kendaraan terlihat cukup besar dalam frame. Hindari cropping ekstrem.</p>
+                    <div class="notice-formats">
+                        <span class="format-tag">JPG</span>
+                        <span class="format-tag">JPEG</span>
+                        <span class="format-tag">PNG</span>
+                        <span class="format-tag">WEBP</span>
+                        <span class="format-tag">≤ 10 MB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================
+    PREDICT SECTION
+    ========================================================== -->
+    <section id="predict" class="predict">
+        <div class="section-container predict-container">
+            <div class="section-header reveal-from-bottom">
+                <span class="section-label">🚀 READY?</span>
+                <h2>Mari mulai <span class="gold-text">menganalisis</span></h2>
+                <p class="section-desc">Upload gambar kendaraan untuk klasifikasi tingkat keparahan kerusakan</p>
+            </div>
+            
+            <div class="upload-wrapper reveal-from-bottom">
+                <div id="uploadArea" class="upload-area">
+                    <input type="file" id="imageInput" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden>
+                    
+                    <div id="uploadDefault" class="upload-default">
+                        <div class="upload-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 16V4M12 4l-4 4M12 4l4 4"/>
+                                <path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/>
+                            </svg>
+                        </div>
+                        <h3>Upload gambar kendaraan</h3>
+                        <p>Klik atau tarik gambar ke sini</p>
+                        <div class="upload-tags">
+                            <span>JPG</span>
+                            <span>JPEG</span>
+                            <span>PNG</span>
+                            <span>WEBP</span>
+                            <span>≤ 10 MB</span>
+                        </div>
+                    </div>
+                    
+                    <div id="previewContainer" class="preview-container" hidden>
+                        <div class="preview-wrapper">
+                            <img id="previewImage" src="" alt="Preview">
+                            <div class="preview-overlay">
+                                <div class="preview-info">
+                                    <span id="fileName" class="mono-text">-</span>
+                                    <span id="fileSize" class="mono-text">-</span>
+                                </div>
+                                <div class="preview-actions">
+                                    <button id="removeImage" class="btn-remove" type="button" title="Hapus">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="18" y1="6" x2="6" y2="18"/>
+                                            <line x1="6" y1="6" x2="18" y2="18"/>
+                                        </svg>
+                                    </button>
+                                    <span class="preview-hint">Klik untuk ganti</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="uploadError" class="upload-error" hidden></div>
+            </div>
+            
+            <button id="predictButton" class="btn btn-gold btn-predict reveal-from-bottom" type="button" disabled>
+                <span>Analisis Gambar</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+            
+            <div id="resultCard" class="result-card" hidden>
+                <div id="resultSkeleton" class="skeleton-wrapper" hidden>
+                    <div class="skeleton-line skeleton-title"></div>
+                    <div class="skeleton-line skeleton-class"></div>
+                    <div class="skeleton-line skeleton-bar"></div>
+                    <div class="skeleton-line skeleton-text"></div>
+                    <div class="skeleton-line skeleton-text-short"></div>
+                </div>
+                
+                <div id="resultContent" class="result-content">
+                    <div class="result-label mono-text">PREDICTION RESULT</div>
+                    <div id="resultClass" class="result-class">-</div>
+                    
+                    <div class="confidence-row">
+                        <span>Confidence</span>
+                        <strong id="resultConfidence" class="mono-text">-</strong>
+                    </div>
+                    <div class="confidence-bar">
+                        <div id="confidenceFill" class="confidence-fill"></div>
+                    </div>
+                    
+                    <div class="result-description">
+                        <h3>Tingkat Keparahan</h3>
+                        <p id="resultDescription">-</p>
+                    </div>
+                    
+                    <div class="result-disclaimer">
+                        <div class="disclaimer-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <p>Hasil ini merupakan prediksi berdasarkan citra yang dapat digunakan sebagai informasi pendukung dalam penilaian awal klaim asuransi dan tidak menggantikan pemeriksaan teknis kendaraan secara langsung.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================
+    FOOTER
+    ========================================================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-mark">CS</span>
+                <span>CarSeverity</span>
+            </div>
+            <p class="footer-text">Vehicle Damage Severity Classification · CNN EfficientNetV2-B0</p>
+            <div class="footer-line"></div>
+            <p class="footer-copy mono-text">© 2026 CarSeverity</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
